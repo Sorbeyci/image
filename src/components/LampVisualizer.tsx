@@ -385,29 +385,29 @@ const LampVisualizer: React.FC = () => {
   };
 
   return (
-    <div className={`rounded-lg shadow-2xl p-8 max-w-4xl w-full mx-auto my-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">Lamp Visualizer</h2>
+    <div className={`rounded-lg shadow-2xl p-4 sm:p-8 w-full max-w-4xl mx-auto my-4 sm:my-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-0">Lamp Visualizer</h2>
         <div className="flex space-x-2">
           <button 
             onClick={toggleDarkMode} 
             className={`p-2 rounded-full transition shadow-md ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
           >
-            {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <button 
             onClick={() => setShowGuide(!showGuide)} 
             className={`p-2 rounded-full transition shadow-md ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
           >
-            <HelpCircle size={24} />
+            <HelpCircle size={20} />
           </button>
         </div>
       </div>
       
       {showGuide && (
-        <div className={`p-4 rounded-lg shadow-inner mb-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+        <div className={`p-4 rounded-lg shadow-inner mb-4 sm:mb-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
           <h3 className="text-lg font-semibold mb-2">How to Use</h3>
-          <ol className={`list-decimal pl-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <ol className={`list-decimal pl-5 text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             <li>Upload a room image or choose from presets</li>
             <li>Select a lamp or upload your own</li>
             <li>Use arrow buttons to position the lamp</li>
@@ -420,7 +420,7 @@ const LampVisualizer: React.FC = () => {
       )}
       
       <div className="relative">
-        <div ref={canvasContainerRef} className="w-full h-128 mb-6 relative overflow-hidden rounded-lg shadow-inner">
+        <div ref={canvasContainerRef} className="w-full h-64 sm:h-128 mb-4 sm:mb-6 relative overflow-hidden rounded-lg shadow-inner">
           <canvas 
             ref={canvasRef} 
             className="w-full h-full cursor-move"
@@ -431,13 +431,13 @@ const LampVisualizer: React.FC = () => {
           />
           {!roomImage && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>Upload a room image to visualize</p>
+              <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Upload a room image to visualize</p>
             </div>
           )}
         </div>
         
         {/* Control buttons around the canvas */}
-        <div className="absolute top-2 left-2 flex space-x-2">
+        <div className="absolute top-2 left-2 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
           <input
             type="file"
             accept="image/*"
@@ -446,7 +446,7 @@ const LampVisualizer: React.FC = () => {
             className="hidden"
           />
           <button onClick={() => roomInputRef.current?.click()} className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition shadow-md">
-            <Upload size={20} />
+            <Upload size={16} />
           </button>
           <input
             type="file"
@@ -456,68 +456,68 @@ const LampVisualizer: React.FC = () => {
             className="hidden"
           />
           <button onClick={() => lampInputRef.current?.click()} className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition shadow-md">
-            <Upload size={20} />
+            <Upload size={16} />
           </button>
         </div>
         
-        <div className="absolute top-2 right-2 flex space-x-2">
+        <div className="absolute top-2 right-2 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
           <button onClick={undo} disabled={historyIndex === 0} className="p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-            <Undo size={20} />
+            <Undo size={16} />
           </button>
           <button onClick={redo} disabled={historyIndex === history.length - 1} className="p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-            <Redo size={20} />
+            <Redo size={16} />
           </button>
           <button onClick={resetToDefault} className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition shadow-md">
-            <RefreshCw size={20} />
+            <RefreshCw size={16} />
           </button>
         </div>
         
-        <div className="absolute bottom-2 left-2 flex space-x-2">
+        <div className="absolute bottom-2 left-2 grid grid-cols-2 gap-2">
           <button onClick={() => handleLampMove('left')} className="p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition shadow-md">
-            <ArrowLeft size={20} />
+            <ArrowLeft size={16} />
           </button>
           <button onClick={() => handleLampMove('up')} className="p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition shadow-md">
-            <ArrowUp size={20} />
+            <ArrowUp size={16} />
           </button>
           <button onClick={() => handleLampMove('down')} className="p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition shadow-md">
-            <ArrowDown size={20} />
+            <ArrowDown size={16} />
           </button>
           <button onClick={() => handleLampMove('right')} className="p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition shadow-md">
-            <ArrowRight size={20} />
+            <ArrowRight size={16} />
           </button>
         </div>
         
-        <div className="absolute bottom-2 right-2 flex space-x-2">
+        <div className="absolute bottom-2 right-2 grid grid-cols-2 gap-2">
           <button onClick={() => handleLampResize(false)} className="p-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition shadow-md">
-            <Minus size={20} />
+            <Minus size={16} />
           </button>
           <button onClick={() => handleLampResize(true)} className="p-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition shadow-md">
-            <Plus size={20} />
+            <Plus size={16} />
           </button>
           <button onClick={handleLampRotate} className="p-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition shadow-md">
-            <RotateCw size={20} />
+            <RotateCw size={16} />
           </button>
           <button onClick={toggleLight} className="p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition shadow-md">
-            {lampSettings.isLightOn ? <Moon size={20} /> : <Sun size={20} />}
+            {lampSettings.isLightOn ? <Moon size={16} /> : <Sun size={16} />}
           </button>
         </div>
       </div>
       
       {/* Lamp selection buttons */}
-      <div className="flex justify-center space-x-4 mt-4 mb-6">
+      <div className="flex justify-center space-x-2 sm:space-x-4 mt-4 mb-4 sm:mb-6">
         {[1, 2, 3].map((num) => (
           <button 
             key={num}
             onClick={() => handleLampSelect(num)} 
-            className="p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition shadow-md flex items-center justify-center"
+            className="p-2 sm:p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition shadow-md flex items-center justify-center"
           >
-            <img src={`/lamps/${num}.png`} alt={`Lamp ${num}`} className="w-10 h-10 object-contain" />
+            <img src={`/lamps/${num}.png`} alt={`Lamp ${num}`} className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
           </button>
         ))}
       </div>
       
       {/* Light controls */}
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:mt-6">
         <div>
           <label htmlFor="lightStartY" className="block text-sm font-medium mb-1">Light Start Position</label>
           <input
@@ -542,7 +542,7 @@ const LampVisualizer: React.FC = () => {
             className="w-full"
           />
         </div>
-        <div>
+        <div className="sm:col-span-2">
           <label htmlFor="lightColor" className="block text-sm font-medium mb-1">Light Color</label>
           <input
             type="color"
@@ -555,7 +555,7 @@ const LampVisualizer: React.FC = () => {
       </div>
       
       {/* Save and Share buttons */}
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:mt-6">
         <button onClick={saveDesign} className="p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center justify-center shadow-md">
           <Save className="mr-2" size={20} />
           Save Design

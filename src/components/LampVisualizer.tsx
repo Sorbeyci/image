@@ -169,17 +169,18 @@ const LampVisualizer: React.FC = () => {
   const saveDesign = async () => {
     if (canvasContainerRef.current) {
       try {
+        const scale = 4; // Increase this for even higher resolution
         const canvas = await html2canvas(canvasContainerRef.current, {
-          scale: 2,
+          scale: scale,
           useCORS: true,
           logging: false,
-          backgroundColor: null, // This will make the background transparent
+          backgroundColor: null,
         });
 
         // Trim the canvas to remove white space
         const trimmedCanvas = trimCanvas(canvas);
 
-        const dataUrl = trimmedCanvas.toDataURL('image/png');
+        const dataUrl = trimmedCanvas.toDataURL('image/png', 1.0); // Use maximum quality
         
         if (dataUrl === 'data:,') {
           throw new Error('Failed to generate image');
@@ -241,23 +242,38 @@ const LampVisualizer: React.FC = () => {
     return trimmedCanvas;
   };
 
-  const shareDesign = () => {
-    const canvas = canvasRef.current;
-    if (canvas && navigator.share) {
-      canvas.toBlob(async (blob) => {
-        if (blob) {
-          const file = new File([blob], 'lamp-design.png', { type: 'image/png' });
-          try {
-            await navigator.share({
-              files: [file],
-              title: 'My Lamp Design',
-              text: 'Check out my lamp design!',
-            });
-          } catch (error) {
-            console.error('Error sharing:', error);
+  const shareDesign = async () => {
+    if (canvasContainerRef.current && navigator.share) {
+      try {
+        const scale = 4; // Increase this for even higher resolution
+        const canvas = await html2canvas(canvasContainerRef.current, {
+          scale: scale,
+          useCORS: true,
+          logging: false,
+          backgroundColor: null,
+        });
+
+        // Trim the canvas to remove white space
+        const trimmedCanvas = trimCanvas(canvas);
+
+        trimmedCanvas.toBlob(async (blob) => {
+          if (blob) {
+            const file = new File([blob], 'lamp-design.png', { type: 'image/png' });
+            try {
+              await navigator.share({
+                files: [file],
+                title: 'My Lamp Design',
+                text: 'Check out my lamp design!',
+              });
+            } catch (error) {
+              console.error('Error sharing:', error);
+            }
           }
-        }
-      });
+        }, 'image/png', 1.0); // Use maximum quality
+      } catch (error) {
+        console.error('Error generating image for sharing:', error);
+        alert('Failed to generate image for sharing. Please try again.');
+      }
     } else {
       alert('Sharing is not supported on this device or browser.');
     }
@@ -304,7 +320,7 @@ const LampVisualizer: React.FC = () => {
 
         // Clear canvas and draw room image
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(roomImg, x, y, roomImg.width * scale, roomImg.height * scale);
+        ctx.drawImage(roomImg, x * scale, y * scale, roomImg.width * scale, roomImg.height * scale);
 
         // Draw lamp if available
         if (lampImage) {

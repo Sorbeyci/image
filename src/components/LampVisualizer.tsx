@@ -573,7 +573,7 @@ const LampVisualizer: React.FC = () => {
       {/* Save and Share buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 sm:mt-6">
         <button onClick={saveDesign} className="p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center justify-center shadow-md">
-          <Save className="mr-2" size={20} />
+          <Save className="mr-2" size={20} />Mahmut
           Save Design
         </button>
         <button onClick={shareDesign} className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition flex items-center justify-center shadow-md">
